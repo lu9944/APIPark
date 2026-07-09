@@ -69,9 +69,12 @@ jobs:
             docker save -o "${WORKDIR}/images/${safe}.tar" "${img}"
           done
 
-          # Copy docker-compose.yml and load script into the package
-          cp scripts/docker-compose.yml "${WORKDIR}/"
+          # Copy docker-compose.yml (strip obsolete 'version' key) and load script
+          sed '/^version:/d' scripts/docker-compose.yml > "${WORKDIR}/docker-compose.yml"
           cp .github/workflows/scripts/load-images.sh "${WORKDIR}/"
+
+          # Generate apinto gateway config.yml (required by docker-compose mount)
+          touch "${WORKDIR}/config.yml"
 
           # Write image list manifest
           echo "${IMAGE_LIST}" | tr ' ' '\n' | sed '/^$/d' > "${WORKDIR}/images.txt"
