@@ -1,0 +1,20 @@
+version: 2
+#certificate:
+#  dir: /etc/apinto/cert
+client:
+  advertise_urls:
+    - http://apipark-apinto:9400
+  listen_urls:
+    - http://0.0.0.0:9400
+gateway:
+  advertise_urls:
+    - http://apipark-apinto:8099
+    - https://apipark-apinto:8099
+  listen_urls:
+    - https://0.0.0.0:8099
+    - http://0.0.0.0:8099
+peer:
+  listen_urls:
+    - http://0.0.0.0:9401
+  advertise_urls:
+    - http://apipark-apinto:9401
