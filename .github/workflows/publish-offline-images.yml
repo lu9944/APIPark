@@ -11,6 +11,13 @@ on:
         options:
           - amd64
           - arm64
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publish-offline-images.yml'
+      - 'scripts/docker-compose.yml'
+      - '.github/workflows/scripts/load-images.sh'
 
 permissions:
   contents: write
@@ -40,6 +47,9 @@ jobs:
         id: arch
         run: |
           ARCH="${{ github.event.inputs.arch }}"
+          if [ -z "${ARCH}" ]; then
+            ARCH="amd64"
+          fi
           echo "platform=linux/${ARCH}" >> "$GITHUB_OUTPUT"
           echo "arch=${ARCH}" >> "$GITHUB_OUTPUT"
 
