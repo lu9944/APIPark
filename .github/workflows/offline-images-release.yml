@@ -74,7 +74,28 @@ jobs:
           cp .github/workflows/scripts/load-images.sh "${WORKDIR}/"
 
           # Generate apinto gateway config.yml (required by docker-compose mount)
-          touch "${WORKDIR}/config.yml"
+          cat > "${WORKDIR}/config.yml" <<'APINTO_CONFIG'
+version: 2
+#certificate:
+#  dir: /etc/apinto/cert
+client:
+  advertise_urls:
+    - http://apipark-apinto:9400
+  listen_urls:
+    - http://0.0.0.0:9400
+gateway:
+  advertise_urls:
+    - http://apipark-apinto:8099
+    - https://apipark-apinto:8099
+  listen_urls:
+    - https://0.0.0.0:8099
+    - http://0.0.0.0:8099
+peer:
+  listen_urls:
+    - http://0.0.0.0:9401
+  advertise_urls:
+    - http://apipark-apinto:9401
+APINTO_CONFIG
 
           # Write image list manifest
           echo "${IMAGE_LIST}" | tr ' ' '\n' | sed '/^$/d' > "${WORKDIR}/images.txt"
