@@ -1,6 +1,6 @@
 name: Offline Docker Images Release
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       arch:
